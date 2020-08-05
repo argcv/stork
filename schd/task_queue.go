@@ -1,9 +1,10 @@
 package schd
 
 import (
-	"github.com/argcv/stork/mtx"
 	"runtime"
 	"sync"
+
+	"github.com/argcv/stork/mtx"
 )
 
 type taskQueueWorker struct {
@@ -67,7 +68,7 @@ type TaskQueue struct {
 	workers    []*taskQueueWorker
 
 	c  chan func()
-	wg *mtx.WaitGroupWithState
+	wg mtx.WaitGroupWithState
 	sd *mtx.SingletonDesc
 }
 
@@ -96,7 +97,7 @@ func (q *TaskQueue) Perform() {
 		for q.wg.State() > 0 {
 			// launch workers
 			q.workers = make([]*taskQueueWorker, q.numWorkers)
-			for i := 0; i < q.numWorkers; i ++ {
+			for i := 0; i < q.numWorkers; i++ {
 				//log.Infof("start worker... %v", i)
 				cw := newTaskQueueWorker(q, i)
 				//cw.id = xid.New().String()
