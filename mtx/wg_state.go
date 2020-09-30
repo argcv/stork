@@ -49,9 +49,9 @@ func (wg *waitGroupWithStateImpl) State() int64 {
 }
 
 func (wg *waitGroupWithStateImpl) Wait() {
+	wg.cv.L.Lock()
 	for wg.State() > 0 {
-		wg.cv.L.Lock()
 		wg.cv.Wait()
-		wg.cv.L.Unlock()
 	}
+	wg.cv.L.Unlock()
 }
