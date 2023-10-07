@@ -1,0 +1,2 @@
+// Compress helpers
+package compr
